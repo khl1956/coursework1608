@@ -245,3 +245,5 @@ def user():
             flash('<br>'.join(['<br>'.join(e) for e in form.errors.values()]))
 
     return render_template('user.html', form = form, data = {'name': user.name}, user = current_user, migrations = migrations, migrForm=migrForm, users = users)
+
+app.run()
