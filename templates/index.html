@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+Index
+{% endblock %}
+
+
+{% block style %}
+<link href="{{ url_for('static', filename='css/index.css') }}" type="text/css" rel="stylesheet"></link>
+{% endblock %}
+
+
+{% block body %}
+<div id="container">
+	<img id="img-main" src="https://img.deusm.com/darkreading/1331840_Slideshow/Slide1CoverArt.jpg"/>
+	<div id="lol">
+		<h1>MIGRATE YOUR DATA!</h1>
+		<h3>Sign Up and use our powerful tool</h3>
+	</div>
+</div>
+<!-- <div id="table-container">
+	{% for table_name, table in data.items() %}
+	<div class="table" >
+		<p class="table-name">{{ table_name }}</p>
+		{% for row in table %}
+		<div class="row">
+			{% for item in row %}
+			<div class="item"
+				style="width: {{ 100/len(row) }}%" 
+			>{{ item }}</div>
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</div>
+	{% endfor %}
+</div> -->
+{% endblock %}

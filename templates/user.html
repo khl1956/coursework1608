@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+User
+{% endblock %}
+
+
+
+{% block style %}
+<link href="{{ url_for('static', filename='css/user.css') }}" type="text/css" rel="stylesheet"></link>
+<link href="{{ url_for('static', filename='css/index.css') }}" type="text/css" rel="stylesheet"></link>
+{% endblock %}
+
+{% block body %}
+	<div id="container">
+		<img id="img-main" src="https://img.deusm.com/darkreading/1331840_Slideshow/Slide1CoverArt.jpg"/>
+		<legend id="welcome">Welcome, {{ data.name }}!</legend>
+		<form method="POST" action="/delete">
+			<input name="id" style="display: none;" type="text" value="{{ user.id }}" id="id" />
+			<button style="position: absolute; top: 75px; left: calc(50% - 75px);" type="submit">DELETE MY ACCOUNT</button>
+		</form>
+		{% if form %}
+			<form id="newuser-block" method="POST" action="">
+				<legend>Create New User!</legend>
+				{{ form.hidden_tag() }}
+				<p>Name</p>
+				{{ form.name() }}
+				<p>E-mail</p>
+				{{ form.email() }}
+				<p>Password</p>
+				{{ form.password() }}
+				<div>
+					{{ form.make_admin() }}
+					<p>Make this new user admin?</p>
+				</div>
+				{{ form.button() }}
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+						{% for message in messages %}
+							<strong>{{ message }}</strong>
+						{% endfor %}
+					{% endif %}
+				{% endwith %}
+			</form>
+			<div
+				style="display: grid; grid-auto-flow: column; grid-gap: 25px; margin-left: -150px;"
+			>
+				<div style="margin-top: 850px" id="table-container">
+					<div class="table" >
+						<p class="table-name">Users</p>
+						{% for row in users %}
+						<div style="text-align: center;" class="row">
+							<a href="/edit?id={{ row.id }}">{{ row.email }}</a>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div style="margin-top: 850px; width: 900px" id="table-container">
+					<div class="table" >
+						<p class="table-name">MIGRATIONS</p>
+						{% for row in migrations %}
+						<div class="row">
+							<div class="item"
+							>Date: {{ row.date }}</div>
+							<div class="item"
+							>UserId: {{ row.userid }}</div>
+							<div class="item"
+							><a target="_blank" href="{{ row.log }}">Log</a></div>
+							<div class="item"
+							><a target="_blank" href="{{ row.input_file }}">Input File</a></div>
+							<div class="item"
+							><a target="_blank" href="{{ row.result }}">Result</a></div>
+							<div class="item"
+							><a target="_self" href="/delete-migration?id={{ row.id }}">Delete</a></div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		{% endif %}
+		{% if migrForm %}
+			<div style="z-index: 10">
+				<form id="login-block" enctype="multipart/form-data" method="POST" action="/migration">
+					<legend>Create the migration!</legend>
+					{{ migrForm.hidden_tag() }}
+					{{ migrForm.file }}
+					{{ migrForm.databaseFrom}}
+					{{ migrForm.databaseTo }}
+					{{ migrForm.button() }}
+					{% with messages = get_flashed_messages() %}
+						{% if messages %}
+							{% for message in messages %}
+								<strong>{{ message }}</strong>
+							{% endfor %}
+						{% endif %}
+					{% endwith %}
+				</form>
+				<div id="table-container">
+					<div class="table" >
+						<p class="table-name">MIGRATIONS</p>
+						{% for row in migrations %}
+						<div class="row">
+							<div class="item"
+							>Date: {{ row.date }}</div>
+							<div class="item"
+							><a target="_blank" href="{{ row.log }}">Log</a></div>
+							<div class="item"
+							><a target="_blank" href="{{ row.input_file }}">Input File</a></div>
+							<div class="item"
+							><a target="_blank" href="{{ row.result }}">Result</a></div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block script %}
+<script>
+	$('#file').attr("accept", ".sql")
+</script>
+{% endblock %}
