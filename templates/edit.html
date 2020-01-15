@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+User
+{% endblock %}
+
+
+
+{% block style %}
+<link href="{{ url_for('static', filename='css/user.css') }}" type="text/css" rel="stylesheet"></link>
+<link href="{{ url_for('static', filename='css/index.css') }}" type="text/css" rel="stylesheet"></link>
+{% endblock %}
+
+{% block body %}
+	<div id="container">
+		{% if form %}
+			<form id="newuser-block" method="POST" action="/edit?id={{user.id}}">
+				<legend>Edit User {{ form.email }}</legend>
+                {{ form.hidden_tag() }}
+				<p>Name</p>
+				{{ form.name() }}
+				<p>Password</p>
+				{{ form.password() }}
+				{{ form.button() }}
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+						{% for message in messages %}
+							<strong>{{ message }}</strong>
+						{% endfor %}
+					{% endif %}
+				{% endwith %}
+			</form>
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block script %}
+<script>
+</script>
+{% endblock %}
